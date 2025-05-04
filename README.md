@@ -4,16 +4,32 @@ This repository contains implementations of fundamental computational theory con
 
 ## Tasks
 
-### Task 1: Binary Representations
-Implement and test the following bitwise operations:
-- `rotl(x, n=1)`: Left rotation of 32-bit unsigned integer
-- `rotr(x, n=1)`: Right rotation of 32-bit unsigned integer
-- `ch(x, y, z)`: Bit selection based on x (y if x=1, z if x=0)
-- `maj(x, y, z)`: Majority vote of bits (1 if at least two inputs are 1)
 
-### Task 2: Hash Functions
-Convert and analyse the K&R hash function:
-```c
+Task 1: Binary Representations
+------------------------------
+
+This task implements essential bitwise operations often used in cryptographic algorithms, aligned with FIPS 180-4 (Secure Hash Standard).
+
+### Functions Implemented:
+
+-   `**rotl(x, n)**`: Left-rotates a 32-bit integer by `n` positions.
+
+-   `**rotr(x, n)**`: Right-rotates a 32-bit integer by `n` positions.
+
+-   `**ch(x, y, z)**`: Chooses bits from `y` where `x` is 1, and from `z` where `x` is 0.
+
+-   `**maj(x, y, z)**`: Returns the majority bit from the inputs.
+
+Each function was tested using predefined binary values, and the output was verified visually against expected results.
+
+* * * * *
+
+Task 2: Hash Functions
+----------------------
+
+Converted and analyzed a C-style rolling hash function:
+
+```
 unsigned hash(char *s) {
     unsigned hashval;
     for (hashval = 0; *s != '\0'; s++)
@@ -21,60 +37,132 @@ unsigned hash(char *s) {
     return hashval % 101;
 }
 ```
-- Convert to Python
-- Test implementation
-- Explain choice of 31 and 101
 
-### Task 3: SHA256 Padding
-Implement SHA256 padding for files:
-- Append '1' bit
-- Add '0' bits until length is multiple of 512
-- Append original length as 64-bit big-endian integer
-- Output padding in hexadecimal format
+### Key Points:
 
-### Task 4: Prime Number Generation
-Calculate first 100 primes using two different algorithms:
-- Implement and explain each algorithm
-- Compare results and performance
-- Document implementation details
+-   Translated to Python and tested.
 
-### Task 5: Roots
-Calculate fractional parts of square roots:
-- Compute square roots of first 100 primes
-- Extract first 32 bits of fractional part
-- Convert to appropriate formats
+-   **Why 31?** A small prime that offers a good distribution.
 
-### Task 6: Proof of Work
-Find words with most leading zeros in SHA256 hash:
-- Calculate SHA256 hashes of English words
-- Count leading zero bits
-- Provide dictionary validation
-- Document findings
+-   **Why 101?** A prime modulus ensures uniform hash spreading and reduced collisions.
 
-### Task 7: Turing Machines
-Design Turing machine for binary addition:
-- Start at leftmost non-blank symbol
-- Add 1 to binary number
-- Handle carry operations
-- Example: 100111 → 101000
+* * * * *
 
-### Task 8: Computational Complexity
-Analyze bubble sort complexity:
-- Implement bubble sort with comparison counting
-- Test on all permutations of [1,2,3,4,5]
-- Document comparison counts
-- Analyse results
+Task 3: SHA-256 Padding
+-----------------------
 
-## Requirements
-- Python 3.x
-- Jupyter Notebook
-- Standard Python libraries:
-  - math
-  - hashlib
-  - struct
-  - os
-  - itertools
-  - numpy
+Implements message padding for SHA-256 according to FIPS 180-4:
+
+### Procedure:
+
+1.  Append a `1` bit (0x80).
+
+2.  Pad with `0`s until length is 56 mod 64.
+
+3.  Append original length as a 64-bit big-endian integer.
+
+Validated using a sample file (`test.txt`) with output printed in hex format.
+
+* * * * *
+
+Task 4: Prime Number Generation
+-------------------------------
+
+Computed the first 100 prime numbers using two different methods:
+
+### Methods Used:
+
+-   **Trial Division** (simple, O(n√(n)))
+
+-   **Sieve of Eratosthenes** (efficient, O(n log log n))
+
+Each method was implemented and tested independently. Results were compared for correctness.
+
+* * * * *
+
+Task 5: Square Root Fraction Extraction
+---------------------------------------
+
+Calculated the fractional part of square roots of the first 100 prime numbers.
+
+### Procedure:
+
+-   Compute √sqrt(prime)
+
+-   Extract fractional part
+
+-   Multiply by 2^32
+
+-   Convert to binary and hexadecimal
+
+This mirrors the process used for constant generation in SHA-2 algorithms.
+
+* * * * *
+
+Task 6: Proof of Work
+---------------------
+
+Simulated a basic proof-of-work algorithm by finding English words whose SHA-256 hash starts with the most leading zero bits.
+
+### Steps:
+
+1.  Read words from `words.txt`
+
+2.  Hash each word using SHA-256
+
+3.  Count leading zero bits in binary hash
+
+4.  Output words with the highest count
+
+This mimics the core idea behind cryptocurrency mining.
+
+* * * * *
+
+Task 7: Turing Machine for Binary Addition
+------------------------------------------
+
+Designed and implemented a simple Turing Machine that adds 1 to a binary number.
+
+### Key Behavior:
+
+-   Reads from left to right to find the end.
+
+-   Performs addition with carry handling from right to left.
+
+-   Halts once addition is complete.
+
+### State Table:
+
+| State | Read | Write | Move | Next State |
+| q0 | 0/1 | 0/1 | R | q0 |
+| q0 | □ | □ | L | q1 |
+| q1 | 0 | 1 | N | HALT |
+| q1 | 1 | 0 | L | q1 |
+| q1 | □ | 1 | N | HALT |
+
+Tested with input `100111` resulting in correct output `101000`.
+
+* * * * *
+
+Task 8: Computational Complexity of Bubble Sort
+-----------------------------------------------
+
+Evaluated the complexity of the Bubble Sort algorithm.
+
+### Implementation Details:
+
+-   Modified Bubble Sort to count comparisons.
+
+-   Applied it to all 120 permutations of [1, 2, 3, 4, 5].
+
+-   Printed each permutation with its comparison count.
+
+### Observation:
+
+All permutations resulted in exactly 10 comparisons, showcasing Bubble Sort's predictable comparison pattern on fixed-size input.
+
+* * * * *
+
 
 ## Usage
 1. Install required dependencies
@@ -82,9 +170,3 @@ Analyze bubble sort complexity:
 3. Run cells in sequence
 4. Review test cases and results
 5. Modify parameters as needed
-
-## Notes
-- Each task is self-contained
-- Test cases provided for verification
-- Detailed documentation included
-- Results can be verified against standards
