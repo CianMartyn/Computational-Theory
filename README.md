@@ -74,7 +74,7 @@ Analyze bubble sort complexity:
   - struct
   - os
   - itertools
-  - numpy (optional)
+  - numpy
 
 ## Usage
 1. Install required dependencies
